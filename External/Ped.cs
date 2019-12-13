@@ -26,8 +26,14 @@ namespace RedM.External
         public bool IsOnFoot => Function.Call<bool>(Hash.IS_PED_ON_FOOT, Handle);
         public bool IsOnMount => Function.Call<bool>(Hash.IS_PED_ON_MOUNT, Handle);
 
+        public Ped GetMount => (Ped)FromHandle(Function.Call<int>(Hash.GET_MOUNT, Handle));
         public Vehicle CurrentVehicle => (Vehicle)FromHandle(Function.Call<int>(Hash.GET_VEHICLE_PED_IS_IN, Handle, false));
         public Vehicle LastVehicle => (Vehicle)FromHandle(Function.Call<int>(Hash.GET_VEHICLE_PED_IS_IN, Handle, true));
+
+        public void SetMount(Ped ped, int seat, bool unk = false)
+        {
+            Function.Call((Hash)0x028F76B6E78246EB, Handle, ped, seat, unk);
+        }
 
         public int HealthCore
         {
