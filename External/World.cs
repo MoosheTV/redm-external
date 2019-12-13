@@ -112,27 +112,25 @@ namespace RedM.External
             return new Blip(blip);
         }
 
-        public static async Task<Ped> CreatePed(PedHash hash, Vector3 position, float heading = 0f, bool isNet = true, bool isMission = true)
+        public static async Task<Ped> CreatePed(Model model, Vector3 position, float heading = 0f, bool isNet = true, bool isMission = true)
         {
-            var model = new Model(hash);
             if (!await model.Request(4000))
             {
                 return null;
             }
-            var id = Function.Call<int>((Hash)0xD49F9B0955C367DE, hash, position.X, position.Y, position.Z, heading,
+            var id = Function.Call<int>((Hash)0xD49F9B0955C367DE, model.Hash, position.X, position.Y, position.Z, heading,
                 isNet, !isMission, 0, 0);
             Function.Call((Hash)0x283978A15512B2FE, id, true);
             return id == 0 ? null : (Ped)Entity.FromHandle(id);
         }
 
-        public static async Task<Vehicle> CreateVehicle(VehicleHash hash, Vector3 position, float heading = 0f, bool isNet = true, bool isMission = true)
+        public static async Task<Vehicle> CreateVehicle(Model model, Vector3 position, float heading = 0f, bool isNet = true, bool isMission = true)
         {
-            var model = new Model(hash);
             if (!await model.Request(4000))
             {
                 return null;
             }
-            var id = Function.Call<int>((Hash)0xAF35D0D2583051B0, hash, position.X, position.Y, position.Z, heading,
+            var id = Function.Call<int>((Hash)0xAF35D0D2583051B0, model.Hash, position.X, position.Y, position.Z, heading,
                 isNet, !isMission);
             return id == 0 ? null : (Vehicle)Entity.FromHandle(id);
         }
@@ -144,7 +142,7 @@ namespace RedM.External
                 return null;
             }
 
-            var prop = new Prop(Function.Call<int>(Hash.CREATE_OBJECT, model, position.X, position.Y, position.Z, isNetworked, true, dynamic, true, true));
+            var prop = new Prop(Function.Call<int>(Hash.CREATE_OBJECT, model.Hash, position.X, position.Y, position.Z, isNetworked, true, dynamic, true, true));
 
             if (placeOnGround)
                 Function.Call(Hash.PLACE_OBJECT_ON_GROUND_PROPERLY, prop.Handle);
