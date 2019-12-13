@@ -107,7 +107,7 @@ namespace RedM.External
 
     public static class GameplayCamera
     {
-        public static Vector3 Position => Function.Call<Vector3>(Hash._GET_GAMEPLAY_CAM_COORDS);
+        public static Vector3 Position => Function.Call<Vector3>(Hash.GET_GAMEPLAY_CAM_COORD);
 
         public static Vector3 Rotation => Function.Call<Vector3>(Hash.GET_GAMEPLAY_CAM_ROT, 2);
 
@@ -125,7 +125,7 @@ namespace RedM.External
 
         public static float RelativeHeading => Function.Call<float>(Hash.GET_GAMEPLAY_CAM_RELATIVE_HEADING);
 
-        public static float Zoom => Function.Call<float>(Hash._GET_GAMEPLAY_CAM_ZOOM);
+        public static float Zoom => Function.Call<float>(Hash._ANIMATE_GAMEPLAY_CAM_ZOOM);
 
         public static bool IsRendering => Function.Call<bool>(Hash.IS_GAMEPLAY_CAM_RENDERING);
 

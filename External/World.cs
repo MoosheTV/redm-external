@@ -94,7 +94,7 @@ namespace RedM.External
 
         public static Prompt CreatePrompt(Control control, string text, int holdDownTime = 0)
         {
-            var handle = Function.Call<int>(Hash._BEGIN_REGISTER_PROMPT);
+            var handle = Function.Call<int>(Hash._PROMPT_REGISTER_BEGIN);
             Function.Call((Hash)0xf4a5c4509bf923b1, handle, 0);
             var prompt = new Prompt(handle)
             {
@@ -102,7 +102,7 @@ namespace RedM.External
                 Text = text,
                 HoldTime = holdDownTime
             };
-            Function.Call(Hash._END_REGISTER_PROMPT, handle);
+            Function.Call(Hash._PROMPT_REGISTER_END, handle);
             return prompt;
         }
 
