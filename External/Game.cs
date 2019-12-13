@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core.Native;
+using System.Collections.Generic;
 
 namespace RedM.External
 {
@@ -15,6 +16,23 @@ namespace RedM.External
                 }
                 _player = new Player(handle);
                 return _player;
+            }
+        }
+
+        public static List<Player> Players
+        {
+            get
+            {
+                List<Player> players = new List<Player>();
+
+                for (int i = 0; i < 256; i++)
+                {
+                    if (Function.Call<bool>(Hash.NETWORK_IS_PLAYER_CONNECTED, i))
+                    {
+                        players.Add(new Player(Function.Call<int>(Hash.NETWORK_GET_ENTITY_FROM_NETWORK_ID, i)));
+                    }
+                }
+                return players;
             }
         }
 
