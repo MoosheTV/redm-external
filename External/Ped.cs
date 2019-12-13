@@ -26,6 +26,7 @@ namespace RedM.External
         public bool IsOnFoot => Function.Call<bool>(Hash.IS_PED_ON_FOOT, Handle);
         public bool IsOnMount => Function.Call<bool>(Hash.IS_PED_ON_MOUNT, Handle);
 
+
         public Ped GetMount => (Ped)FromHandle(Function.Call<int>(Hash.GET_MOUNT, Handle));
         public Vehicle CurrentVehicle => (Vehicle)FromHandle(Function.Call<int>(Hash.GET_VEHICLE_PED_IS_IN, Handle, false));
         public Vehicle LastVehicle => (Vehicle)FromHandle(Function.Call<int>(Hash.GET_VEHICLE_PED_IS_IN, Handle, true));
@@ -63,6 +64,11 @@ namespace RedM.External
             set => Function.Call(Hash._SET_PED_PROMPT_NAME, Handle, value);
         }
 
+        public bool BlockPermanentEvents
+        {
+            set => Function.Call(Hash.SET_BLOCKING_OF_NON_TEMPORARY_EVENTS, Handle, value);
+        }
+
         public Weapon CurrentWeaponLeftHand
         {
             get {
@@ -91,6 +97,21 @@ namespace RedM.External
             return Function.Call<int>((Hash)0x36731AC041289BB1, Handle, (int)core);
         }
 
+        public bool GetConfigFlag(int flagID)
+        {
+            return Function.Call<bool>(Hash.GET_PED_CONFIG_FLAG, Handle, flagID, true);
+        }
+
+        public void SetConfigFlag(int flagID, bool value)
+        {
+            Function.Call(Hash.SET_PED_CONFIG_FLAG, Handle, flagID, value);
+        }
+
+        public void ResetConfigFlag(int flagID)
+        {
+            Function.Call(Hash.SET_PED_RESET_FLAG, Handle, flagID, true);
+        }
+
         public void SetCoreValue(PedCore core, int value)
         {
             Function.Call((Hash)0xc6258f41d86676e0, Handle, (int)core, MathUtil.Clamp(value, 0, 100));
@@ -115,6 +136,19 @@ namespace RedM.External
             }
         }
 
+        public bool IsSittingInVehicle()
+        {
+            return Function.Call<bool>(Hash.IS_PED_SITTING_IN_ANY_VEHICLE, Handle);
+        }
+        public bool IsSittingInVehicle(Vehicle vehicle)
+        {
+            return Function.Call<bool>(Hash.IS_PED_SITTING_IN_VEHICLE, Handle, vehicle.Handle);
+        }
+
+        public void SetIntoVehicle(Vehicle vehicle, VehicleSeat seat)
+        {
+            Function.Call(Hash.SET_PED_INTO_VEHICLE, Handle, vehicle.Handle, seat);
+        }
     }
 
     public enum Gender
