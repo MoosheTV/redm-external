@@ -248,7 +248,8 @@ namespace RedM.External
 
         public override void Delete()
         {
-            Function.Call(Hash.DELETE_ENTITY, Handle);
+            int handle = Handle;
+            API.DeleteEntity(ref handle);
         }
 
         public static Entity FromNetworkId(int netId)
