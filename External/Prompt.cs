@@ -19,6 +19,13 @@ namespace RedM.External
             }
         }
 
+        public bool Enabled
+        {
+            set => Function.Call(Hash._PROMPT_SET_ENABLED, Handle, value);
+            get => Function.Call<bool>(Hash._PROMPT_IS_ENABLED, Handle);
+        }
+
+
         public bool IsVisible
         {
             get => Function.Call<bool>(Hash._PROMPT_IS_ACTIVE, Handle);
@@ -28,6 +35,16 @@ namespace RedM.External
         public int HoldTime
         {
             set => Function.Call(Hash._PROMPT_SET_PRESSED_TIMED_MODE, value);
+        }
+
+        public bool Completed
+        {
+            get => Function.Call<bool>(Hash._PROMPT_HAS_HOLD_MODE_COMPLETED, Handle);
+        }
+
+        public long Group
+        {
+            set => Function.Call(Hash._PROMPT_SET_GROUP, Handle, value, 0);
         }
 
         public bool IsPressed => Function.Call<bool>(Hash._PROMPT_IS_PRESSED, Handle);
