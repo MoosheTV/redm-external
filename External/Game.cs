@@ -133,6 +133,16 @@ namespace RedM.External
             return Function.Call<float>(Hash.GET_DISABLED_CONTROL_NORMAL, index, (uint)control);
         }
 
+        public static bool IsDisabledControlJustPressed(int index, Control control)
+        {
+            return IsControlJustPressed(index, control) && !IsControlEnabled(index, control);
+        }
+
+        public static bool IsDisabledControlJustReleased(int index, Control control)
+        {
+            return IsControlJustReleased(index, control) && !IsControlEnabled(index, control);
+        }
+
         public static void Pause(bool value)
         {
             Function.Call(Hash.SET_GAME_PAUSED, value);
