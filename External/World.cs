@@ -137,6 +137,26 @@ namespace RedM.External
             return id == 0 ? null : (Vehicle)Entity.FromHandle(id);
         }
 
+        public static async Task<Prop> CreateProp(Model model, Vector3 position, Vector3 rotation, bool dynamic, bool placeOnGround, bool isNetworked)
+        {
+            if (!await model.Request(4000))
+            {
+                return null;
+            }
+
+            var prop = new Prop(Function.Call<int>(Hash.CREATE_OBJECT, model, position.X, position.Y, position.Z, isNetworked, true, dynamic, true, true));
+
+            if (placeOnGround)
+                Function.Call(Hash.PLACE_OBJECT_ON_GROUND_PROPERLY, prop.Handle);
+
+            if (prop != null)
+            {
+                prop.Rotation = rotation;
+            }
+
+            return prop;
+        }
+
         public static RaycastResult Raycast(Vector3 source, Vector3 target, IntersectOptions options, Entity ignoreEntity = null)
         {
             return new RaycastResult(Function.Call<int>(Hash._START_SHAPE_TEST_RAY, source.X, source.Y, source.Z,
