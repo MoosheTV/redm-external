@@ -35,20 +35,17 @@ namespace RedM.External
         public string Name => Function.Call<string>(Hash.GET_PLAYER_NAME, Handle);
         public int ServerId => Function.Call<int>(Hash.GET_PLAYER_SERVER_ID, Handle);
 
-        public async Task<bool> ChangeModel(PedHash hash, int timeout = 3000)
+        public async Task<bool> ChangeModel(Model model, int timeout = 3000)
         {
-            var model = new Model(hash);
-
-            await model.Request(timeout);
-
-            if (!model.IsLoaded)
+            if (!model.IsInCdImage || !model.IsPed || !await model.Request(timeout))
             {
                 return false;
             }
 
-            Function.Call(Hash.SET_PLAYER_MODEL, Handle, hash, false);
+            Function.Call(Hash.SET_PLAYER_MODEL, Handle, model.Hash, false);
             Function.Call((Hash)0x283978A15512B2FE, Character.Handle, true);
-            model.MarkAsNoLongerNeeded();
+            Function.Call(Hash.SET_MODEL_AS_NO_LONGER_NEEDED, model.Hash);
+
             return true;
         }
 
